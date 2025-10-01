@@ -101,18 +101,34 @@ def update_ics_file(new_dates: List[str]):
     # Find new dates to add
     dates_to_add = [d for d in new_dates if d not in existing_dates]
 
+    # Combine all dates and sort
+    all_dates = sorted(list(existing_dates) + dates_to_add)
+
     if not dates_to_add:
         print("No new dates to add.")
-        return
+        # Still check if we need to reorder existing events
+        if content and list(existing_dates) == sorted(existing_dates):
+            return
+        print("Reordering existing events by date.")
 
-    print(f"Adding {len(dates_to_add)} new dates: {dates_to_add}")
+    if dates_to_add:
+        print(f"Adding {len(dates_to_add)} new dates: {dates_to_add}")
 
-    # If we have existing content, insert new events before END:VCALENDAR
+    # If we have existing content, rebuild with sorted events
     if content:
         # Normalize line endings to CRLF
         content = content.replace('\r\n', '\n').replace('\n', '\r\n')
-        events = '\r\n'.join(generate_vevent(d) for d in dates_to_add)
-        new_content = content.replace('END:VCALENDAR', f'{events}\r\nEND:VCALENDAR')
+        # Extract everything before the first VEVENT
+        header_match = re.search(r'(.*?)BEGIN:VEVENT', content, re.DOTALL)
+        if header_match:
+            header = header_match.group(1)
+        else:
+            # Fallback: use everything up to END:VCALENDAR
+            header = content.replace('END:VCALENDAR', '')
+
+        # Generate all events in sorted order
+        events = '\r\n'.join(generate_vevent(d) for d in all_dates)
+        new_content = f'{header}{events}\r\nEND:VCALENDAR\r\n'
     else:
         # Create new ICS from scratch
         header = """BEGIN:VCALENDAR\r
