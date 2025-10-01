@@ -1,0 +1,34 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Bandcamp Friday Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Bandcamp Friday
+X-WR-TIMEZONE:UTC
+X-WR-CALDESC:Bandcamp Friday - when Bandcamp waives its revenue share
+
+BEGIN:VEVENT
+UID:bandcamp-friday-2025-10-03@github.com
+DTSTAMP:20251001T000000Z
+DTSTART:20251003T000000Z
+DTEND:20251004T000000Z
+SUMMARY:Bandcamp Friday
+DESCRIPTION:Bandcamp waives its revenue share on this day. Support artists directly!
+URL:https://isitbandcampfriday.com/
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+UID:bandcamp-friday-2025-12-05@github.com
+DTSTAMP:20251001T000000Z
+DTSTART:20251205T000000Z
+DTEND:20251206T000000Z
+SUMMARY:Bandcamp Friday
+DESCRIPTION:Bandcamp waives its revenue share on this day. Support artists directly!
+URL:https://isitbandcampfriday.com/
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+END:VCALENDAR

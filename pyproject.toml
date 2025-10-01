@@ -1,0 +1,13 @@
+[project]
+name = "bandcamp-friday-calendar"
+version = "0.1.0"
+description = "Subscribe to Bandcamp Friday events in your calendar"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
