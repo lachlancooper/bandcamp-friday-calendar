@@ -80,7 +80,7 @@ DTSTAMP:{dtstamp}
 DTSTART;TZID=America/Los_Angeles:{dtstart}
 DTEND;TZID=America/Los_Angeles:{dtend}
 SUMMARY:Bandcamp Friday
-DESCRIPTION:Bandcamp waives its revenue share on this day. Support artists directly!
+DESCRIPTION:Bandcamp waives its revenue share on this day. Support artists directly!\n\nhttps://isitbandcampfriday.com/
 URL:https://isitbandcampfriday.com/
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
