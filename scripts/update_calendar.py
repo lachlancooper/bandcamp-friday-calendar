@@ -5,6 +5,8 @@ Keeps all previous events intact.
 """
 
 import re
+import json
+import html
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
@@ -20,29 +22,28 @@ def scrape_dates() -> List[str]:
         response.raise_for_status()
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Look for date patterns in the text
-        # isitbandcampfriday typically shows dates in various formats
-        text = soup.get_text()
+        # Find the div with data-fundraisers attribute
+        bandcamp_vm = soup.find('div', id='bandcamp-friday-vm')
+        if not bandcamp_vm or not bandcamp_vm.get('data-fundraisers'):
+            print("Could not find data-fundraisers attribute")
+            return []
 
-        # Try to find dates in format like "October 3, 2025" or "Oct 3, 2025"
-        date_pattern = r'(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+\d{1,2},?\s+\d{4}'
-        matches = re.findall(date_pattern, text, re.IGNORECASE)
+        # Parse the JSON data (it's HTML-encoded)
+        fundraisers_json = html.unescape(bandcamp_vm['data-fundraisers'])
+        fundraisers = json.loads(fundraisers_json)
 
-        # Parse and normalize dates
+        # Extract dates from the fundraiser objects
         dates = []
-        for match in matches:
+        for fundraiser in fundraisers:
             try:
-                # Try multiple date formats
-                for fmt in ['%B %d, %Y', '%b %d, %Y', '%B %d %Y', '%b %d %Y']:
-                    try:
-                        dt = datetime.strptime(match, fmt)
-                        date_str = dt.strftime('%Y%m%d')
-                        if date_str not in dates:
-                            dates.append(date_str)
-                        break
-                    except ValueError:
-                        continue
-            except Exception:
+                # Parse date string like "Fri, 03 Oct 2025 07:00:00 -0000"
+                date_str = fundraiser['date']
+                dt = datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %z')
+                date_formatted = dt.strftime('%Y%m%d')
+                if date_formatted not in dates:
+                    dates.append(date_formatted)
+            except Exception as e:
+                print(f"Error parsing date {fundraiser.get('date')}: {e}")
                 continue
 
         return sorted(set(dates))
