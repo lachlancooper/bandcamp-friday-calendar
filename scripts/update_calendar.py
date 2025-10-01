@@ -140,7 +140,7 @@ END:STANDARD\r
 END:VTIMEZONE\r
 """
         events = '\r\n'.join(generate_vevent(d) for d in new_dates)
-        new_content = f"{header}\r\n{events}\r\nEND:VCALENDAR\r\n"
+        new_content = f"{header}{events}\r\nEND:VCALENDAR\r\n"
 
     with open(ICS_FILE, 'w') as f:
         f.write(new_content)
