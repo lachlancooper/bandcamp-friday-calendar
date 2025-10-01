@@ -74,16 +74,17 @@ def generate_vevent(date_str: str) -> str:
     dtstart = dt.strftime('%Y%m%dT000000')
     dtend = dt.strftime('%Y%m%dT235959')
 
-    return f"""BEGIN:VEVENT
-UID:{uid}
-DTSTAMP:{dtstamp}
-DTSTART;TZID=America/Los_Angeles:{dtstart}
-DTEND;TZID=America/Los_Angeles:{dtend}
-SUMMARY:Bandcamp Friday
-DESCRIPTION:Bandcamp waives its revenue share on this day. Support artists directly!\n\nhttps://isitbandcampfriday.com/
-URL:https://isitbandcampfriday.com/
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
+    return f"""BEGIN:VEVENT\r
+UID:{uid}\r
+DTSTAMP:{dtstamp}\r
+DTSTART;TZID=America/Los_Angeles:{dtstart}\r
+DTEND;TZID=America/Los_Angeles:{dtend}\r
+SUMMARY:Bandcamp Friday\r
+DESCRIPTION:Bandcamp waives its revenue share on this day. Support artist\r
+ s directly!\\n\\nhttps://isitbandcampfriday.com/\r
+URL:https://isitbandcampfriday.com/\r
+STATUS:CONFIRMED\r
+TRANSP:TRANSPARENT\r
 END:VEVENT"""
 
 def update_ics_file(new_dates: List[str]):
@@ -108,39 +109,38 @@ def update_ics_file(new_dates: List[str]):
 
     # If we have existing content, insert new events before END:VCALENDAR
     if content:
-        events = '\n\n'.join(generate_vevent(d) for d in dates_to_add)
-        new_content = content.replace('END:VCALENDAR', f'\n{events}\n\nEND:VCALENDAR')
+        events = '\r\n'.join(generate_vevent(d) for d in dates_to_add)
+        new_content = content.replace('END:VCALENDAR', f'\r\n{events}\r\nEND:VCALENDAR')
     else:
         # Create new ICS from scratch
-        header = """BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Bandcamp Friday Calendar//EN
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:Bandcamp Friday
-X-WR-TIMEZONE:America/Los_Angeles
-X-WR-CALDESC:Bandcamp Friday - when Bandcamp waives its revenue share
-
-BEGIN:VTIMEZONE
-TZID:America/Los_Angeles
-BEGIN:DAYLIGHT
-TZOFFSETFROM:-0800
-TZOFFSETTO:-0700
-DTSTART:19700308T020000
-RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
-TZNAME:PDT
-END:DAYLIGHT
-BEGIN:STANDARD
-TZOFFSETFROM:-0700
-TZOFFSETTO:-0800
-DTSTART:19701101T020000
-RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
-TZNAME:PST
-END:STANDARD
-END:VTIMEZONE
+        header = """BEGIN:VCALENDAR\r
+VERSION:2.0\r
+PRODID:-//Bandcamp Friday Calendar//EN\r
+CALSCALE:GREGORIAN\r
+METHOD:PUBLISH\r
+X-WR-CALNAME:Bandcamp Friday\r
+X-WR-TIMEZONE:America/Los_Angeles\r
+X-WR-CALDESC:Bandcamp Friday - when Bandcamp waives its revenue share\r
+BEGIN:VTIMEZONE\r
+TZID:America/Los_Angeles\r
+BEGIN:DAYLIGHT\r
+TZOFFSETFROM:-0800\r
+TZOFFSETTO:-0700\r
+DTSTART:19700308T020000\r
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\r
+TZNAME:PDT\r
+END:DAYLIGHT\r
+BEGIN:STANDARD\r
+TZOFFSETFROM:-0700\r
+TZOFFSETTO:-0800\r
+DTSTART:19701101T020000\r
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\r
+TZNAME:PST\r
+END:STANDARD\r
+END:VTIMEZONE\r
 """
-        events = '\n\n'.join(generate_vevent(d) for d in new_dates)
-        new_content = f"{header}\n{events}\n\nEND:VCALENDAR\n"
+        events = '\r\n'.join(generate_vevent(d) for d in new_dates)
+        new_content = f"{header}\r\n{events}\r\nEND:VCALENDAR\r\n"
 
     with open(ICS_FILE, 'w') as f:
         f.write(new_content)

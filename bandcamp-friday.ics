@@ -6,7 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Bandcamp Friday
 X-WR-TIMEZONE:America/Los_Angeles
 X-WR-CALDESC:Bandcamp Friday - when Bandcamp waives its revenue share
-
 BEGIN:VTIMEZONE
 TZID:America/Los_Angeles
 BEGIN:DAYLIGHT
@@ -26,27 +25,27 @@ END:STANDARD
 END:VTIMEZONE
 
 BEGIN:VEVENT
-UID:bandcamp-friday-2025-10-03@github.com
-DTSTAMP:20251001T000000Z
+UID:bandcamp-friday-20251003@github.com
+DTSTAMP:20251001T070931Z
 DTSTART;TZID=America/Los_Angeles:20251003T000000
 DTEND;TZID=America/Los_Angeles:20251003T235959
 SUMMARY:Bandcamp Friday
-DESCRIPTION:Bandcamp waives its revenue share on this day. Support artists directly!
+DESCRIPTION:Bandcamp waives its revenue share on this day. Support artist
+ s directly!\n\nhttps://isitbandcampfriday.com/
 URL:https://isitbandcampfriday.com/
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
-
 BEGIN:VEVENT
-UID:bandcamp-friday-2025-12-05@github.com
-DTSTAMP:20251001T000000Z
+UID:bandcamp-friday-20251205@github.com
+DTSTAMP:20251001T070931Z
 DTSTART;TZID=America/Los_Angeles:20251205T000000
 DTEND;TZID=America/Los_Angeles:20251205T235959
 SUMMARY:Bandcamp Friday
-DESCRIPTION:Bandcamp waives its revenue share on this day. Support artists directly!
+DESCRIPTION:Bandcamp waives its revenue share on this day. Support artist
+ s directly!\n\nhttps://isitbandcampfriday.com/
 URL:https://isitbandcampfriday.com/
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
-
 END:VCALENDAR
