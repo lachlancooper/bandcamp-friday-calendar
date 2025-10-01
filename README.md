@@ -34,11 +34,6 @@ On Bandcamp Friday, Bandcamp waives its revenue share, so artists and labels rec
 
 Learn more at [isitbandcampfriday.com](https://isitbandcampfriday.com/)
 
-## Upcoming Dates
-
-- October 3, 2025
-- December 5, 2025
-
 ---
 
 This calendar is automatically updated from isitbandcampfriday.com
