@@ -109,8 +109,10 @@ def update_ics_file(new_dates: List[str]):
 
     # If we have existing content, insert new events before END:VCALENDAR
     if content:
+        # Normalize line endings to CRLF
+        content = content.replace('\r\n', '\n').replace('\n', '\r\n')
         events = '\r\n'.join(generate_vevent(d) for d in dates_to_add)
-        new_content = content.replace('END:VCALENDAR', f'\r\n{events}\r\nEND:VCALENDAR')
+        new_content = content.replace('END:VCALENDAR', f'{events}\r\nEND:VCALENDAR')
     else:
         # Create new ICS from scratch
         header = """BEGIN:VCALENDAR\r
