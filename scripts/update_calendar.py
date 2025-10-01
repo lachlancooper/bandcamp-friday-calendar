@@ -65,20 +65,19 @@ def read_existing_ics() -> Tuple[str, List[str]]:
         return None, []
 
 def generate_vevent(date_str: str) -> str:
-    """Generate a VEVENT block for a given date."""
+    """Generate a VEVENT block for a given date in Pacific time."""
     dt = datetime.strptime(date_str, '%Y%m%d')
-    next_day = dt + timedelta(days=1)
 
     uid = f"bandcamp-friday-{date_str}@github.com"
     dtstamp = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
-    dtstart = dt.strftime('%Y%m%dT000000Z')
-    dtend = next_day.strftime('%Y%m%dT000000Z')
+    dtstart = dt.strftime('%Y%m%dT000000')
+    dtend = dt.strftime('%Y%m%dT235959')
 
     return f"""BEGIN:VEVENT
 UID:{uid}
 DTSTAMP:{dtstamp}
-DTSTART:{dtstart}
-DTEND:{dtend}
+DTSTART;TZID=America/Los_Angeles:{dtstart}
+DTEND;TZID=America/Los_Angeles:{dtend}
 SUMMARY:Bandcamp Friday
 DESCRIPTION:Bandcamp waives its revenue share on this day. Support artists directly!
 URL:https://isitbandcampfriday.com/
@@ -118,8 +117,26 @@ PRODID:-//Bandcamp Friday Calendar//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Bandcamp Friday
-X-WR-TIMEZONE:UTC
+X-WR-TIMEZONE:America/Los_Angeles
 X-WR-CALDESC:Bandcamp Friday - when Bandcamp waives its revenue share
+
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+TZNAME:PDT
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+TZNAME:PST
+END:STANDARD
+END:VTIMEZONE
 """
         events = '\n\n'.join(generate_vevent(d) for d in new_dates)
         new_content = f"{header}\n{events}\n\nEND:VCALENDAR\n"
