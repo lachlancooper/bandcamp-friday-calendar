@@ -7,9 +7,9 @@ Keeps all previous events intact.
 import re
 import json
 import html
+import datetime
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
 from typing import List, Tuple
 
 ICS_FILE = 'bandcamp-friday.ics'
@@ -38,7 +38,7 @@ def scrape_dates() -> List[str]:
             try:
                 # Parse date string like "Fri, 03 Oct 2025 07:00:00 -0000"
                 date_str = fundraiser['date']
-                dt = datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %z')
+                dt = datetime.datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %z')
                 date_formatted = dt.strftime('%Y%m%d')
                 if date_formatted not in dates:
                     dates.append(date_formatted)
@@ -58,7 +58,7 @@ def read_existing_ics() -> Tuple[str, List[str]]:
             content = f.read()
 
         # Extract all existing event UIDs
-        uid_pattern = r'UID:(bandcamp-friday-\d{4}-\d{2}-\d{2}@github\.com)'
+        uid_pattern = r'UID:(bandcamp-friday-\d{8}@github\.com)'
         existing_uids = re.findall(uid_pattern, content)
 
         return content, existing_uids
@@ -67,10 +67,10 @@ def read_existing_ics() -> Tuple[str, List[str]]:
 
 def generate_vevent(date_str: str) -> str:
     """Generate a VEVENT block for a given date in Pacific time."""
-    dt = datetime.strptime(date_str, '%Y%m%d')
+    dt = datetime.datetime.strptime(date_str, '%Y%m%d')
 
     uid = f"bandcamp-friday-{date_str}@github.com"
-    dtstamp = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
+    dtstamp = datetime.datetime.now(datetime.UTC).strftime('%Y%m%dT%H%M%SZ')
     dtstart = dt.strftime('%Y%m%dT000000')
     dtend = dt.strftime('%Y%m%dT235959')
 
@@ -94,9 +94,9 @@ def update_ics_file(new_dates: List[str]):
     # Extract existing dates from UIDs
     existing_dates = set()
     for uid in existing_uids:
-        match = re.search(r'bandcamp-friday-(\d{4}-\d{2}-\d{2})', uid)
+        match = re.search(r'bandcamp-friday-(\d{8})', uid)
         if match:
-            existing_dates.add(match.group(1).replace('-', ''))
+            existing_dates.add(match.group(1))
 
     # Find new dates to add
     dates_to_add = [d for d in new_dates if d not in existing_dates]
