@@ -25,24 +25,24 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:bandcamp-friday-20251003@github.com
-DTSTAMP:20251001T072001Z
+DTSTAMP:20251001T072250Z
 DTSTART;TZID=America/Los_Angeles:20251003T000000
 DTEND;TZID=America/Los_Angeles:20251003T235959
 SUMMARY:Bandcamp Friday
-DESCRIPTION:Bandcamp waives its revenue share on this day. Support artist
- s directly!\n\nhttps://isitbandcampfriday.com/
+DESCRIPTION:Bandcamp waives its revenue share on this day. Support artists
+ directly!\n\nhttps://isitbandcampfriday.com/
 URL:https://isitbandcampfriday.com/
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:bandcamp-friday-20251205@github.com
-DTSTAMP:20251001T072001Z
+DTSTAMP:20251001T072250Z
 DTSTART;TZID=America/Los_Angeles:20251205T000000
 DTEND;TZID=America/Los_Angeles:20251205T235959
 SUMMARY:Bandcamp Friday
-DESCRIPTION:Bandcamp waives its revenue share on this day. Support artist
- s directly!\n\nhttps://isitbandcampfriday.com/
+DESCRIPTION:Bandcamp waives its revenue share on this day. Support artists
+ directly!\n\nhttps://isitbandcampfriday.com/
 URL:https://isitbandcampfriday.com/
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
