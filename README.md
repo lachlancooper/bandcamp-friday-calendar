@@ -37,3 +37,5 @@ Learn more at [isitbandcampfriday.com](https://isitbandcampfriday.com/)
 ---
 
 This calendar is automatically updated from isitbandcampfriday.com
+
+Made by [lachlancooper](https://bandcamp.com/lachlancooper)
