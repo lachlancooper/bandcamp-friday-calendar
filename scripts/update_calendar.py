@@ -91,23 +91,27 @@ def update_ics_file(new_dates: List[str]):
     """Update the ICS file with new dates while preserving existing events."""
     content, existing_uids = read_existing_ics()
 
-    # Extract existing dates from UIDs
-    existing_dates = set()
+    # Extract existing dates from UIDs (preserving order)
+    existing_dates_ordered = []
+    seen = set()
     for uid in existing_uids:
         match = re.search(r'bandcamp-friday-(\d{8})', uid)
         if match:
-            existing_dates.add(match.group(1))
+            date = match.group(1)
+            if date not in seen:
+                existing_dates_ordered.append(date)
+                seen.add(date)
 
     # Find new dates to add
-    dates_to_add = [d for d in new_dates if d not in existing_dates]
+    dates_to_add = [d for d in new_dates if d not in seen]
 
     # Combine all dates and sort
-    all_dates = sorted(list(existing_dates) + dates_to_add)
+    all_dates = sorted(existing_dates_ordered + dates_to_add)
 
     if not dates_to_add:
         print("No new dates to add.")
         # Still check if we need to reorder existing events
-        if content and list(existing_dates) == sorted(existing_dates):
+        if content and existing_dates_ordered == sorted(existing_dates_ordered):
             return
         print("Reordering existing events by date.")
 
