@@ -7,3 +7,10 @@ dependencies = [
     "requests>=2.31.0",
     "beautifulsoup4>=4.12.0",
 ]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-mock>=3.12.0",
+    "pytest-cov>=6.0.0",
+]
